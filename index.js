@@ -1,6 +1,3 @@
-import {DropboxResponse, files} from 'dropbox'
-import FileMetadata = files.FileMetadata
-
 const Dropbox = require('dropbox').Dropbox
 const fs = require('fs')
 const core = require('@actions/core')
@@ -13,7 +10,7 @@ const globSource = core.getInput('GLOB')
 const dropboxPathPrefix = core.getInput('DROPBOX_DESTINATION_PATH_PREFIX')
 const isDebug = core.getInput('DEBUG')
 
-function uploadMuhFile(filePath: string, dbx: any): Promise<any> {
+function uploadMuhFile(filePath, dbx) {
   const fileContent = fs.readFileSync(filePath)
   const destinationPath = `${dropboxPathPrefix}${filePath}`
   // random delay to avoid rate limiting
@@ -24,14 +21,14 @@ function uploadMuhFile(filePath: string, dbx: any): Promise<any> {
     setTimeout(() => {
       resolve(dbx
         .filesUpload({path: destinationPath, contents: fileContent})
-        .then((response: DropboxResponse<FileMetadata>) => {
+        .then(response => {
           if (isDebug) console.log(response)
           if (response.status !== 200) {
             core.setFailed('File upload failed:' + response)
           }
           return response
         })
-        .catch((error: any) => {
+        .catch((error) => {
           console.error('Error uploading file:' + filePath, error)
           core.setFailed('Error uploading file' + error)
           return error
@@ -40,7 +37,7 @@ function uploadMuhFile(filePath: string, dbx: any): Promise<any> {
   })
 }
 
-async function refreshAccessToken(refreshToken: string, clientId: string, clientSecret: string) {
+async function refreshAccessToken(refreshToken, clientId, clientSecret) {
   const response = await fetch('https://api.dropboxapi.com/oauth2/token', {
     method: 'POST',
     headers: {
@@ -58,7 +55,7 @@ async function refreshAccessToken(refreshToken: string, clientId: string, client
   return data.access_token  // 返回新的 access token
 }
 
-async function main(files: string[]) {
+async function main(files) {
   const accessToken = await refreshAccessToken(refreshToken, clientId, clientSecret)
   console.log('access token refreshed:', accessToken)
   const dbx = new Dropbox({accessToken: accessToken})
@@ -68,7 +65,7 @@ async function main(files: string[]) {
   console.log('all files have been uploaded')
 }
 
-glob(globSource, {}, async (err: any, files: string[]) => {
+glob(globSource, {}, async (err, files) => {
   if (err) {
     console.error('Error globbing files:', err)
     core.setFailed('Error globbing files' + err)
