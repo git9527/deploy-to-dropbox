@@ -2,9 +2,9 @@ import {DropboxResponse, files} from 'dropbox'
 import FileMetadata = files.FileMetadata
 
 const Dropbox = require('dropbox').Dropbox
-const fs = require('fs')
-const core = require('@actions/core')
-const glob = require('glob')
+import fs from 'fs'
+import core from '@actions/core'
+import {glob} from 'glob'
 
 const refreshToken = core.getInput('DROPBOX_REFRESH_TOKEN')
 const clientId = core.getInput('DROPBOX_APP_KEY')
@@ -27,13 +27,13 @@ function uploadMuhFile(filePath: string, dbx: any): Promise<any> {
         .then((response: DropboxResponse<FileMetadata>) => {
           if (isDebug) console.log(response)
           if (response.status !== 200) {
-            core.setFailed('File upload failed', response)
+            core.setFailed('File upload failed:' + response)
           }
           return response
         })
         .catch((error: any) => {
           console.error('Error uploading file:' + filePath, error)
-          core.setfailed('Error uploading file', error)
+          core.setFailed('Error uploading file' + error)
           return error
         }))
     }, delay)
@@ -58,8 +58,8 @@ async function refreshAccessToken(refreshToken: string, clientId: string, client
   return data.access_token  // 返回新的 access token
 }
 
-glob(globSource, {}, async (err: any, files: string[]) => {
-  if (err) core.setFailed('Error: glob failed', err)
+async function main() {
+  const files = await glob(globSource, {})
   const accessToken = await refreshAccessToken(refreshToken, clientId, clientSecret)
   console.log('access token refreshed:', accessToken)
   const dbx = new Dropbox({accessToken: accessToken})
@@ -67,4 +67,6 @@ glob(globSource, {}, async (err: any, files: string[]) => {
     await uploadMuhFile(file, dbx)
   }
   console.log('all files have been uploaded')
-})
+}
+
+main().then(r => console.log(r))
