@@ -6,7 +6,7 @@ branding:
   color: 'black'
 runs:
   using: 'node20'
-  main: 'dist/index.js'
+  main: 'dist/main.js'
 inputs:
   DROPBOX_REFRESH_TOKEN:
     description: 'Value should be a secret that is set in your repository settings'
