@@ -20,7 +20,7 @@ function uploadMuhFile(filePath, dbx) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(dbx
-        .filesUpload({path: destinationPath, contents: fileContent})
+        .filesUpload({path: destinationPath, contents: fileContent, mode: {'.tag': 'overwrite'}})
         .then(response => {
           if (isDebug) console.log(response)
           if (response.status !== 200) {
