@@ -2,9 +2,9 @@ import {DropboxResponse, files} from 'dropbox'
 import FileMetadata = files.FileMetadata
 
 const Dropbox = require('dropbox').Dropbox
-import fs from 'fs'
-import core from '@actions/core'
-import {glob} from 'glob'
+const fs = require('fs')
+const core = require('@actions/core')
+const glob = require('glob')
 
 const refreshToken = core.getInput('DROPBOX_REFRESH_TOKEN')
 const clientId = core.getInput('DROPBOX_APP_KEY')
