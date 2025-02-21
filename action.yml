@@ -1,5 +1,5 @@
-name: 'Upload to Dropbox'
-description: 'This action will handle the deployment process of your project to Dropbox.'
+name: 'Dropbox Uploader Action'
+description: 'This action will handle the upload process of your project to Dropbox.'
 author: 'git9527'
 branding:
   icon: 'upload-cloud'
