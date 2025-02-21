@@ -9,24 +9,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aTable/deploy-to-dropbox.git"
+    "url": "git+https://github.com/git9527/deploy-to-dropbox.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aTable/deploy-to-dropbox/issues"
+    "url": "https://github.com/git9527/deploy-to-dropbox/issues"
   },
-  "homepage": "https://github.com/aTable/deploy-to-dropbox#readme",
+  "homepage": "https://github.com/git9527/deploy-to-dropbox#readme",
   "dependencies": {
-    "@actions/core": "^1.9.1",
-    "@actions/github": "^2.1.1",
-    "@types/node": "^13.9.3",
-    "dropbox": "^4.0.30",
-    "glob": "^7.1.6"
+    "@actions/core": "1.10.1",
+    "@actions/github": "^6.0.0",
+    "@types/node": "^22.13.4",
+    "dropbox": "^10.34.0",
+    "glob": "^11.0.1"
   },
   "devDependencies": {
-    "@zeit/ncc": "^0.22.0",
-    "node-fetch": "^2.6.7",
-    "typescript": "^3.8.3"
+    "@vercel/ncc": "^0.38.3",
+    "node-fetch": "^2.7.0",
+    "typescript": "^3.9.10"
   }
 }

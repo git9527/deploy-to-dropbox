@@ -2,7 +2,6 @@ const Dropbox = require('dropbox').Dropbox
 const fs = require('fs')
 const fetch2 = require('node-fetch')
 const core = require('@actions/core')
-const github = require('@actions/github')
 const glob = require('glob')
 
 const accessToken = core.getInput('DROPBOX_ACCESS_TOKEN')
@@ -15,16 +14,23 @@ function uploadMuhFile(filePath: string): Promise<any> {
   const file = fs.readFileSync(filePath)
   const destinationPath = `${dropboxPathPrefix}${filePath}`
   if (isDebug) console.log('uploaded file to Dropbox at: ', destinationPath)
-  return dropbox
-    .filesUpload({path: destinationPath, contents: file})
-    .then((response: any) => {
-      if (isDebug) console.log(response)
-      return response
-    })
-    .catch((error: any) => {
-      if (isDebug) console.error(error)
-      return error
-    })
+  // random delay to avoid rate limiting
+  const delay = Math.floor(Math.random() * 1000)
+  if (isDebug) console.log('delaying for: ', delay)
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(dropbox
+        .filesUpload({path: destinationPath, contents: file})
+        .then((response: any) => {
+          if (isDebug) console.log(response)
+          return response
+        })
+        .catch((error: any) => {
+          if (isDebug) console.error(error)
+          return error
+        }))
+    }, delay)
+  })
 }
 
 glob(globSource, {}, (err: any, files: string[]) => {
@@ -34,6 +40,6 @@ glob(globSource, {}, (err: any, files: string[]) => {
       console.log('all files uploaded', all)
     })
     .catch((err) => {
-      console.error('error', err)
+      core.setFailed('update error', err)
     })
 })
