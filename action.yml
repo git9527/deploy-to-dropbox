@@ -1,6 +1,6 @@
-name: 'Deploy to Dropbox'
+name: 'Upload to Dropbox'
 description: 'This action will handle the deployment process of your project to Dropbox.'
-author: 'aTable'
+author: 'git9527'
 branding:
   icon: 'upload-cloud'
   color: 'black'
