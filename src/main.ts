@@ -58,8 +58,7 @@ async function refreshAccessToken(refreshToken: string, clientId: string, client
   return data.access_token  // 返回新的 access token
 }
 
-async function main() {
-  const files = await glob(globSource, {})
+async function main(files: string[]) {
   const accessToken = await refreshAccessToken(refreshToken, clientId, clientSecret)
   console.log('access token refreshed:', accessToken)
   const dbx = new Dropbox({accessToken: accessToken})
@@ -69,4 +68,11 @@ async function main() {
   console.log('all files have been uploaded')
 }
 
-main().then(r => console.log(r))
+glob(globSource, {}, async (err: any, files: string[]) => {
+  if (err) {
+    console.error('Error globbing files:', err)
+    core.setFailed('Error globbing files' + err)
+  }
+  console.log('files:', files)
+  await main(files)
+})
