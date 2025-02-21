@@ -14,16 +14,16 @@ const dropboxPathPrefix = core.getInput('DROPBOX_DESTINATION_PATH_PREFIX')
 const isDebug = core.getInput('DEBUG')
 
 function uploadMuhFile(filePath: string, dbx: any): Promise<any> {
-  const file = fs.readFileSync(filePath)
+  const fileContent = fs.readFileSync(filePath)
   const destinationPath = `${dropboxPathPrefix}${filePath}`
   // random delay to avoid rate limiting
   const delay = Math.floor(Math.random() * 1000)
   if (isDebug) console.log('delaying for: ', delay)
-  console.log(`uploading file from ${file} to Dropbox: ${destinationPath}`)
+  console.log(`uploading file from ${filePath} to Dropbox: ${destinationPath}`)
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(dbx
-        .filesUpload({path: destinationPath, contents: file})
+        .filesUpload({path: destinationPath, contents: fileContent})
         .then((response: DropboxResponse<FileMetadata>) => {
           if (isDebug) console.log(response)
           if (response.status !== 200) {
@@ -32,7 +32,8 @@ function uploadMuhFile(filePath: string, dbx: any): Promise<any> {
           return response
         })
         .catch((error: any) => {
-          if (isDebug) console.error(error)
+          console.error('Error uploading file:' + filePath, error)
+          core.setfailed('Error uploading file', error)
           return error
         }))
     }, delay)
@@ -60,12 +61,10 @@ async function refreshAccessToken(refreshToken: string, clientId: string, client
 glob(globSource, {}, async (err: any, files: string[]) => {
   if (err) core.setFailed('Error: glob failed', err)
   const accessToken = await refreshAccessToken(refreshToken, clientId, clientSecret)
-  const dbx = new Dropbox({accessToken: accessToken, fetch})
-  Promise.all(files.map(file => uploadMuhFile(file, dbx)))
-    .then((all) => {
-      console.log('all files uploaded', all)
-    })
-    .catch((err) => {
-      core.setFailed('update error', err)
-    })
+  console.log('access token refreshed:', accessToken)
+  const dbx = new Dropbox({accessToken: accessToken})
+  for (const file of files) {
+    await uploadMuhFile(file, dbx)
+  }
+  console.log('all files have been uploaded')
 })
