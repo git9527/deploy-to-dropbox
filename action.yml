@@ -8,13 +8,22 @@ runs:
   using: 'node20'
   main: 'dist/index.js'
 inputs:
-  DROPBOX_ACCESS_TOKEN:
+  DROPBOX_REFRESH_TOKEN:
+    description: 'Value should be a secret that is set in your repository settings'
+    required: true
+
+  DROPBOX_APP_KEY:
+    description: 'Value should be a secret that is set in your repository settings'
+    required: true
+
+  DROPBOX_APP_SECRET:
     description: 'Value should be a secret that is set in your repository settings'
     required: true
 
   GLOB: 
-    description: 'Glob that you want to save to Dropbox e.g dir1/dir2/**/*.md or **/*.txt'
-    required: true
+    description: 'Glob that you want to upload to Dropbox e.g dir1/dir2/**/*.md or **/*.txt'
+    required: false
+    default: "**/*"
   
   DROPBOX_DESTINATION_PATH_PREFIX:
     description: 'The destination path prefix to save to in Dropbox. This will prepend the individual globs. Default value is "/"'
