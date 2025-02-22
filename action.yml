@@ -19,11 +19,6 @@ inputs:
   DROPBOX_APP_SECRET:
     description: 'Your Dropbox app secret'
     required: true
-
-  GLOB: 
-    description: 'Glob that you want to upload to Dropbox e.g dir1/dir2/**/*.md or **/*.txt'
-    required: false
-    default: "**/*"
   
   DROPBOX_DESTINATION_PATH_PREFIX:
     description: 'The destination path prefix to save to in Dropbox. This will prepend the individual globs. Default value is "/"'
@@ -34,6 +29,11 @@ inputs:
     description: 'The upload mode to use. Default value is "overwrite"'
     required: false
     default: "overwrite"
+
+  GLOB_PATTERN:
+    description: 'Glob pattern that you want to upload to Dropbox e.g dir1/dir2/**/*.md or **/*.txt'
+    required: false
+    default: "**/*"
 
   DEBUG:
     description: "Enable debugging."
