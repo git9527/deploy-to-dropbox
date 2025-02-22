@@ -43,4 +43,5 @@ inputs:
   DEBUG:
     description: "Enable debugging."
     required: false
+    default: false
 
