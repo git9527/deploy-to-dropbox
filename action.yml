@@ -35,6 +35,11 @@ inputs:
     required: false
     default: "**/*"
 
+  IGNORE_LOCAL_PATH:
+    description: 'Ignore the local path when uploading to Dropbox. Default value is false'
+    required: false
+    default: false
+
   DEBUG:
     description: "Enable debugging."
     required: false

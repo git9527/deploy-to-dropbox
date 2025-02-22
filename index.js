@@ -2,6 +2,7 @@ const Dropbox = require('dropbox').Dropbox
 const fs = require('fs')
 const core = require('@actions/core')
 const glob = require('glob')
+const path = require('path')
 
 const refreshToken = core.getInput('DROPBOX_REFRESH_TOKEN')
 const clientId = core.getInput('DROPBOX_APP_KEY')
@@ -9,11 +10,16 @@ const clientSecret = core.getInput('DROPBOX_APP_SECRET')
 const globSource = core.getInput('GLOB_PATTERN')
 const dropboxPathPrefix = core.getInput('DROPBOX_DESTINATION_PATH_PREFIX')
 const dropboxUploadMode = core.getInput('DROPBOX_UPLOAD_MODE')
-const isDebug = core.getInput('DEBUG')
+const isDebug = core.getBooleanInput('DEBUG')
+const ignoreLocalPath = core.getBooleanInput('IGNORE_LOCAL_PATH')
 
 function uploadMuhFile(filePath, dbx) {
   const fileContent = fs.readFileSync(filePath)
-  const destinationPath = `${dropboxPathPrefix}${filePath}`
+  let localFilePath = filePath
+  if (ignoreLocalPath) {
+    localFilePath = path.basename(filePath)
+  }
+  const destinationPath = `${dropboxPathPrefix}${localFilePath}`
   console.log(`uploading file from ${filePath} to Dropbox: ${destinationPath}`)
   return dbx
     .filesUpload({

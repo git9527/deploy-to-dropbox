@@ -48,7 +48,7 @@ Now you are ready to upload the file to Dropbox with the following step in your 
 
 ```yaml
   - name: Upload to Dropbox
-    uses: git9527/deploy-to-dropbox@v16
+    uses: git9527/deploy-to-dropbox@v17
     with:
       DROPBOX_REFRESH_TOKEN: ${{ secrets.DROPBOX_REFRESH_TOKEN }}
       DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
@@ -56,4 +56,5 @@ Now you are ready to upload the file to Dropbox with the following step in your 
       DROPBOX_DESTINATION_PATH_PREFIX: <Your Dropbox folder path>
       DROPBOX_UPLOAD_MODE: override
       GLOB_PATTERN: **/*
+      IGNORE_LOCAL_PATH: false
 ```
