@@ -1,0 +1,41 @@
+name: 'Dropbox Uploader Action'
+description: 'Cross-Platform Dropbox Uploader for GitHub Actions'
+author: 'git9527'
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+inputs:
+  DROPBOX_REFRESH_TOKEN:
+    description: 'Refresh token for Dropbox API'
+    required: true
+
+  DROPBOX_APP_KEY:
+    description: 'Your Dropbox app key'
+    required: true
+
+  DROPBOX_APP_SECRET:
+    description: 'Your Dropbox app secret'
+    required: true
+  
+  DROPBOX_DESTINATION_PATH_PREFIX:
+    description: 'The destination path prefix to save to in Dropbox. This will prepend the individual globs. Default value is "/"'
+    required: false
+    default: "/"
+
+  DROPBOX_UPLOAD_MODE:
+    description: 'The upload mode to use. Default value is "overwrite"'
+    required: false
+    default: "overwrite"
+
+  GLOB_PATTERN:
+    description: 'Glob pattern that you want to upload to Dropbox e.g dir1/dir2/**/*.md or **/*.txt'
+    required: false
+    default: "**/*"
+
+  DEBUG:
+    description: "Enable debugging."
+    required: false
+
