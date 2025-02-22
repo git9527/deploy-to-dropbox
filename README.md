@@ -1,6 +1,6 @@
 # deploy-to-dropbox
 
-A GitHub Action to deploy to Dropbox
+A Cross-Platform GitHub Action to upload files to Dropbox
 
 ## Generate the refresh token
 
@@ -48,12 +48,12 @@ Now you are ready to upload the file to Dropbox with the following step in your 
 
 ```yaml
   - name: Upload to Dropbox
-    uses: git9527/deploy-to-dropbox@v15
+    uses: git9527/deploy-to-dropbox@v16
     with:
-      DROPBOX_REFRESH_TOKEN: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+      DROPBOX_REFRESH_TOKEN: ${{ secrets.DROPBOX_REFRESH_TOKEN }}
       DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
       DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
-      GLOB: **/*
       DROPBOX_DESTINATION_PATH_PREFIX: <Your Dropbox folder path>
       DROPBOX_UPLOAD_MODE: override
+      GLOB_PATTERN: **/*
 ```

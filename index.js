@@ -60,7 +60,7 @@ glob(globSource, {}, async (err, files) => {
   }
   console.log('files to be uploaded:', files)
   const accessToken = await refreshAccessToken(refreshToken, clientId, clientSecret)
-  console.log('access token refreshed:', accessToken)
+  console.log('Successfully get access token:', accessToken)
   const dbx = new Dropbox({accessToken: accessToken})
   Promise.all(files.map(file => uploadMuhFile(file, dbx)))
     .then(function (all) {

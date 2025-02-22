@@ -1,23 +1,23 @@
 name: 'Dropbox Uploader Action'
-description: 'This action will handle the upload process of your project to Dropbox.'
+description: 'Cross-Platform Dropbox Uploader for GitHub Actions'
 author: 'git9527'
 branding:
   icon: 'upload-cloud'
-  color: 'black'
+  color: 'blue'
 runs:
   using: 'node20'
   main: 'dist/index.js'
 inputs:
   DROPBOX_REFRESH_TOKEN:
-    description: 'Value should be a secret that is set in your repository settings'
+    description: 'Refresh token for Dropbox API'
     required: true
 
   DROPBOX_APP_KEY:
-    description: 'Value should be a secret that is set in your repository settings'
+    description: 'Your Dropbox app key'
     required: true
 
   DROPBOX_APP_SECRET:
-    description: 'Value should be a secret that is set in your repository settings'
+    description: 'Your Dropbox app secret'
     required: true
 
   GLOB: 

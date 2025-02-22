@@ -1,7 +1,7 @@
 {
   "name": "deploy-to-dropbox",
   "version": "1.0.0",
-  "description": "A GitHub Action to deploy to Dropbox",
+  "description": "A Cross-Platform GitHub Action to upload files to Dropbox",
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build index.js",
