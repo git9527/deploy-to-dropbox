@@ -73,12 +73,8 @@ glob(globSource, {}, async (err, files) => {
   const accessToken = await refreshAccessToken(refreshToken, clientId, clientSecret)
   console.log('Successfully get access token:', accessToken)
   const dbx = new Dropbox({accessToken: accessToken})
-  Promise.all(files.map(file => uploadMuhFile(file, dbx)))
-    .then(function (all) {
-      console.log('all files uploaded', all);
-    })
-    .catch(function (err) {
-      console.error('error', err);
-      core.setFailed('Error uploading files:' + err)
-    });
+  for (const file of files) {
+    await uploadMuhFile(file, dbx)
+  }
+  console.log('All files uploaded successfully')
 })
