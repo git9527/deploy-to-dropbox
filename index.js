@@ -20,9 +20,9 @@ function uploadMuhFile(filePath, dbx) {
     localFilePath = path.basename(filePath)
   }
   let remotePrefix = dropboxPathPrefix
-  if (!remotePrefix.endsWith('/')) {
-    console.log('remote prefix does not end with /, adding it')
-    remotePrefix += '/'
+  if (!remotePrefix.startsWith('/')) {
+    console.log('remote prefix does start end with /, adding it')
+    remotePrefix = '/' + remotePrefix
   }
   const destinationPath = `${remotePrefix}${localFilePath}`
   console.log(`uploading file from ${filePath} to Dropbox: ${destinationPath}`)
